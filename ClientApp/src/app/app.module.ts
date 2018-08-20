@@ -1,3 +1,4 @@
+import { VehicleService } from './services/vehice.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -26,11 +27,14 @@ import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.com
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'vehicles/new', component: VehicleFormComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ])
   ],
-  providers: [],
+  providers: [
+    VehicleService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
