@@ -20,10 +20,10 @@ namespace vega_aspnetcore_angular.Controllers
         }
 
         [HttpGet("/api/features")]
-        public async Task<IEnumerable<FeatureResource>> GetFeatures()
+        public async Task<IEnumerable<KeyValuePairResource>> GetFeatures()
         {
             return await context.Features
-                .ProjectTo<FeatureResource>(mapper.ConfigurationProvider)
+                .ProjectTo<KeyValuePairResource>(mapper.ConfigurationProvider)
                 .ToListAsync();
         }
     }

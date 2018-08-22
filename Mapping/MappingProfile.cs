@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using vega_aspnetcore_angular.Controllers.Resources;
-using vega_aspnetcore_angular.Models;
+using vega_aspnetcore_angular.Core.Models;
 
 namespace vega_aspnetcore_angular.Mapping
 {
@@ -12,9 +12,11 @@ namespace vega_aspnetcore_angular.Mapping
         {
             // Domain to API Resource
             CreateMap<Make, MakeResource>();
-            CreateMap<Model, ModelResource>();
-            CreateMap<Feature, FeatureResource>();
+            CreateMap<Make, KeyValuePairResource>();
+            CreateMap<Model, KeyValuePairResource>();
+            CreateMap<Feature, KeyValuePairResource>();
             CreateMap<Vehicle, VehicleResource>()
+                .ForMember(vr => vr.Make, opt => opt.MapFrom(v => v.Model.Make))
                 .ForMember(vr => vr.Contact, opt => opt.MapFrom(v =>
                  new ContactResource
                  {
@@ -22,11 +24,17 @@ namespace vega_aspnetcore_angular.Mapping
                      Email = v.ContactEmail,
                      Phone = v.ContactPhone
                  }))
-                 .ForMember(vr => vr.Features, opt => opt.MapFrom(v =>
-                    v.Features.Select(vf => vf.FeatureId)));
+                .ForMember(vr => vr.Features, opt => opt.MapFrom(v =>
+                    v.Features.Select(vf =>
+                    new KeyValuePairResource
+                    {
+                        Id = vf.Feature.Id,
+                        Name = vf.Feature.Name
+                    })));
+
 
             // Api Resource to Domain
-            CreateMap<VehicleResource, Vehicle>()
+            CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))
                 .ForMember(v => v.ContactEmail, opt => opt.MapFrom(vr => vr.Contact.Email))

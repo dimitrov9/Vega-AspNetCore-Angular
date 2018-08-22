@@ -5,7 +5,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vega_aspnetcore_angular.Controllers.Resources;
-using vega_aspnetcore_angular.Models;
+using vega_aspnetcore_angular.Core.Models;
 using vega_aspnetcore_angular.Persistence;
 
 namespace vega_aspnetcore_angular.Controllers

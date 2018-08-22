@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using vega_aspnetcore_angular.Models;
+using vega_aspnetcore_angular.Core.Models;
 
 namespace vega_aspnetcore_angular.Persistence
 {

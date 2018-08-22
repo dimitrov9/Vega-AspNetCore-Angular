@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace vega_aspnetcore_angular.Models
+namespace vega_aspnetcore_angular.Core.Models
 {
     public class Vehicle
     {
