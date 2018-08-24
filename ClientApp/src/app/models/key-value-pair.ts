@@ -1,4 +1,4 @@
-export interface Feature {
+export class KeyValuePair {
     id: number;
     name: string;
 }

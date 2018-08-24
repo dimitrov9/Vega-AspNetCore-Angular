@@ -1,9 +1,11 @@
+import { KeyValuePair } from '../models/key-value-pair';
+import { SaveVehicle } from '../models/save-vehicle';
 import { Make } from '../models/make';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
-import { Feature } from '../models/feature';
+import { Vehicle } from '../models/vehicle';
 
 @Injectable()
 export class VehicleService {
@@ -17,11 +19,23 @@ export class VehicleService {
       );
   }
 
-  getFeatures(): Observable<Feature[]> {
-    return this.http.get('/api/features')
-      .pipe(
-        map(res => res as Feature[])
-      );
+  getFeatures(): Observable<KeyValuePair[]> {
+    return this.http.get('/api/features') as Observable<KeyValuePair[]>;
   }
 
+  getVehicle(id: number): Observable<Vehicle> {
+    return this.http.get(`/api/vehicles/${id}`) as Observable<Vehicle>;
+  }
+
+  create(vehicle: SaveVehicle): Observable<Vehicle> {
+    return this.http.post('/api/vehicles', vehicle) as Observable<Vehicle>;
+  }
+
+  update(vehicle: SaveVehicle): Observable<Vehicle> {
+    return this.http.put(`/api/vehicles/${vehicle.id}`, vehicle) as Observable<Vehicle>;
+  }
+
+  delete(id: number) {
+    return this.http.delete(`/api/vehicles/${id}`);
+  }
 }

@@ -1,6 +1,4 @@
-import { Model } from './model';
-export interface Make {
-    id: number;
-    name: string;
-    models: Model[];
+import { KeyValuePair } from './key-value-pair';
+export class Make extends KeyValuePair {
+    models: KeyValuePair[];
 }
