@@ -1,3 +1,4 @@
+import { ListVehicle } from './../models/list-vehicle';
 import { KeyValuePair } from '../models/key-value-pair';
 import { SaveVehicle } from '../models/save-vehicle';
 import { Make } from '../models/make';
@@ -21,6 +22,10 @@ export class VehicleService {
 
   getFeatures(): Observable<KeyValuePair[]> {
     return this.http.get('/api/features') as Observable<KeyValuePair[]>;
+  }
+
+  getAllVehicles(): Observable<ListVehicle[]> {
+    return this.http.get('/api/vehicles') as Observable<ListVehicle[]>;
   }
 
   getVehicle(id: number): Observable<Vehicle> {

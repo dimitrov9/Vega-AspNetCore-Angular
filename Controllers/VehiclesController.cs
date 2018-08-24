@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using vega_aspnetcore_angular.Controllers.Resources;
 using vega_aspnetcore_angular.Core.Models;
 using vega_aspnetcore_angular.Core;
+using System.Collections.Generic;
 
 namespace vega_aspnetcore_angular.Controllers
 {
@@ -27,6 +28,11 @@ namespace vega_aspnetcore_angular.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<ListVehicleResource>> GetAllVehicles()
+        {
+            return await vehicleRepository.GetAllListVehicleResource();
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource saveVehicleResource)
@@ -61,7 +67,7 @@ namespace vega_aspnetcore_angular.Controllers
 
             await unitOfWork.CompleteAsync();
 
-            var result = mapper.Map<VehicleResource>(vehicle);
+            var result = await vehicleRepository.GetVehicleResource(vehicle.Id);
 
             return Ok(result);
         }

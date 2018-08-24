@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -42,6 +43,14 @@ namespace vega_aspnetcore_angular.Persistence
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
+        public async Task<IEnumerable<ListVehicleResource>> GetAllListVehicleResource()
+        {
+            return await context.Vehicles
+                .Include(v => v.Model)
+                    .ThenInclude(m => m.Make)
+                .ProjectTo<ListVehicleResource>(mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
         public void Add(Vehicle vehicle)
         {
             context.Vehicles.Add(vehicle);
@@ -51,5 +60,6 @@ namespace vega_aspnetcore_angular.Persistence
         {
             context.Remove(vehicle);
         }
+
     }
 }

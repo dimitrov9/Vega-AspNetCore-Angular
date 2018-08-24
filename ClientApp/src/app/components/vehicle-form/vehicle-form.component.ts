@@ -81,11 +81,22 @@ export class VehicleFormComponent implements OnInit {
             showClose: true,
             timeout: 5000
           });
+
+          this.router.navigate(['/vehicles']);
         });
     } else {
       this.vehicleService.create(this.saveVehicle)
-        .subscribe(
-          x => console.log(x));
+        .subscribe(x => {
+          this.toastyService.success({
+            title: 'Success',
+            msg: 'The vehicle was sucessfully created.',
+            theme: 'bootstrap',
+            showClose: true,
+            timeout: 5000
+          });
+
+          this.router.navigate(['/vehicles']);
+        });
     }
   }
 
