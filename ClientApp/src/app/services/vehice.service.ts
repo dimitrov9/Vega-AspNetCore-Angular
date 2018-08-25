@@ -1,4 +1,4 @@
-import { Filter } from './../models/filter';
+import { VehicleQuery } from './../models/vehicle-query';
 import { KeyValuePair } from '../models/key-value-pair';
 import { SaveVehicle } from '../models/save-vehicle';
 import { Make } from '../models/make';
@@ -24,8 +24,8 @@ export class VehicleService {
     return this.http.get('/api/features') as Observable<KeyValuePair[]>;
   }
 
-  getAllVehicles(filter: Filter): Observable<Vehicle[]> {
-    return this.http.get(`/api/vehicles${this.toQueryString(filter)}`) as Observable<Vehicle[]>;
+  getAllVehicles(query: VehicleQuery): Observable<Vehicle[]> {
+    return this.http.get(`/api/vehicles${this.toQueryString(query)}`) as Observable<Vehicle[]>;
   }
 
   toQueryString(obj) {

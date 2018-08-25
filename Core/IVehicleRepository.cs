@@ -9,7 +9,7 @@ namespace vega_aspnetcore_angular.Core
     {
         Task<Vehicle> GetVehicle(int id, bool includeRelated = true);
         Task<VehicleResource> GetVehicleResource(int id);
-        Task<IEnumerable<VehicleResource>> GetAllVehicleResource(Filter filter);
+        Task<IEnumerable<VehicleResource>> GetAllVehicleResource(VehicleQuery filter);
         void Add(Vehicle vehicle);
         void Remove(Vehicle vehicle);
     }

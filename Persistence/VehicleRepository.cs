@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -7,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using vega_aspnetcore_angular.Controllers.Resources;
 using vega_aspnetcore_angular.Core;
 using vega_aspnetcore_angular.Core.Models;
+using vega_aspnetcore_angular.Extensions;
 
 namespace vega_aspnetcore_angular.Persistence
 {
@@ -44,7 +47,7 @@ namespace vega_aspnetcore_angular.Persistence
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
-        public async Task<IEnumerable<VehicleResource>> GetAllVehicleResource(Filter filter)
+        public async Task<IEnumerable<VehicleResource>> GetAllVehicleResource(VehicleQuery vehicleQuery)
         {
             var query = context.Vehicles
                 .Include(v => v.Model)
@@ -53,16 +56,25 @@ namespace vega_aspnetcore_angular.Persistence
                     .ThenInclude(vf => vf.Feature)
                 .AsQueryable();
 
-            if (filter.MakeId.HasValue)
-                query = query.Where(v => v.Model.MakeId == filter.MakeId.Value);
+            if (vehicleQuery.MakeId.HasValue)
+                query = query.Where(v => v.Model.MakeId == vehicleQuery.MakeId.Value);
 
-            if (filter.ModelId.HasValue)
-                query = query.Where(v => v.ModelId == filter.ModelId.Value);
+            if (vehicleQuery.ModelId.HasValue)
+                query = query.Where(v => v.ModelId == vehicleQuery.ModelId.Value);
+
+            var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>
+            {
+                ["make"] = v => v.Model.Make.Name,
+                ["model"] = v => v.Model.Name,
+                ["contactName"] = v => v.ContactName
+            };
 
             return await query
+                .ApplyOrdering(vehicleQuery, columnsMap)
                 .ProjectTo<VehicleResource>(mapper.ConfigurationProvider)
                 .ToListAsync();
         }
+
         public void Add(Vehicle vehicle)
         {
             context.Vehicles.Add(vehicle);
