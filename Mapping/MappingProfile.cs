@@ -31,9 +31,6 @@ namespace vega_aspnetcore_angular.Mapping
                         Id = vf.Feature.Id,
                         Name = vf.Feature.Name
                     })));
-            CreateMap<Vehicle, ListVehicleResource>()
-                .ForMember(lvr => lvr.MakeName, opt => opt.MapFrom(v => v.Model.Make.Name))
-                .ForMember(lvr => lvr.ModelName, opt => opt.MapFrom(v => v.Model.Name));
 
 
             // Api Resource to Domain

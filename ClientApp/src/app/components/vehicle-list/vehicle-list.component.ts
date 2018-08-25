@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VehicleListComponent implements OnInit {
 
-  vehicles: ListVehicle[] = [];
+  vehicles: Vehicle[] = [];
 
   constructor(
     private vehicleService: VehicleService
