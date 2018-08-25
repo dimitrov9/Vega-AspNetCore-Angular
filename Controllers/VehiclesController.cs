@@ -29,9 +29,10 @@ namespace vega_aspnetcore_angular.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ListVehicleResource>> GetAllVehicles()
+        public async Task<IEnumerable<VehicleResource>> GetAllVehicles(FilterResource filterResource)
         {
-            return await vehicleRepository.GetAllListVehicleResource();
+            var filter = mapper.Map<Filter>(filterResource);
+            return await vehicleRepository.GetAllVehicleResource(filter);
         }
 
         [HttpPost]

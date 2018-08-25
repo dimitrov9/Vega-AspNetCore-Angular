@@ -1,4 +1,4 @@
-import { ListVehicle } from './../models/list-vehicle';
+import { Filter } from './../models/filter';
 import { KeyValuePair } from '../models/key-value-pair';
 import { SaveVehicle } from '../models/save-vehicle';
 import { Make } from '../models/make';
@@ -24,8 +24,20 @@ export class VehicleService {
     return this.http.get('/api/features') as Observable<KeyValuePair[]>;
   }
 
-  getAllVehicles(): Observable<ListVehicle[]> {
-    return this.http.get('/api/vehicles') as Observable<ListVehicle[]>;
+  getAllVehicles(filter: Filter): Observable<Vehicle[]> {
+    return this.http.get(`/api/vehicles${this.toQueryString(filter)}`) as Observable<Vehicle[]>;
+  }
+
+  toQueryString(obj) {
+    const parts = [];
+    // tslint:disable-next-line:forin
+    for (const property in obj) {
+      const value = obj[property];
+      if (value != null && value != undefined)
+        parts.push(encodeURIComponent(property) + '=' + encodeURIComponent(value));
+    }
+
+    return '?' + parts.join('&');
   }
 
   getVehicle(id: number): Observable<Vehicle> {
