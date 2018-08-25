@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { Vehicle } from '../models/vehicle';
+import { Result } from '../models/result';
 
 @Injectable()
 export class VehicleService {
@@ -24,8 +25,8 @@ export class VehicleService {
     return this.http.get('/api/features') as Observable<KeyValuePair[]>;
   }
 
-  getAllVehicles(query: VehicleQuery): Observable<Vehicle[]> {
-    return this.http.get(`/api/vehicles${this.toQueryString(query)}`) as Observable<Vehicle[]>;
+  getAllVehicles(query: VehicleQuery): Observable<Result<Vehicle>> {
+    return this.http.get(`/api/vehicles${this.toQueryString(query)}`) as Observable<Result<Vehicle>>;
   }
 
   toQueryString(obj) {

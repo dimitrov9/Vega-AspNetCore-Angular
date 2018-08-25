@@ -47,8 +47,10 @@ namespace vega_aspnetcore_angular.Persistence
                 .SingleOrDefaultAsync(v => v.Id == id);
         }
 
-        public async Task<IEnumerable<VehicleResource>> GetAllVehicleResource(VehicleQuery vehicleQuery)
+        public async Task<QueryResultResource<VehicleResource>> GetAllVehicleResource(VehicleQuery vehicleQuery)
         {
+            var result = new QueryResultResource<VehicleResource>();
+
             var query = context.Vehicles
                 .Include(v => v.Model)
                     .ThenInclude(m => m.Make)
@@ -69,10 +71,15 @@ namespace vega_aspnetcore_angular.Persistence
                 ["contactName"] = v => v.ContactName
             };
 
-            return await query
-                .ApplyOrdering(vehicleQuery, columnsMap)
-                .ProjectTo<VehicleResource>(mapper.ConfigurationProvider)
-                .ToListAsync();
+            query = query.ApplyOrdering(vehicleQuery, columnsMap);
+
+            result.TotalItems = await query.CountAsync();
+
+            result.Items = await query.ApplyPaging(vehicleQuery)
+            .ProjectTo<VehicleResource>(mapper.ConfigurationProvider)
+            .ToListAsync();
+
+            return result;
         }
 
         public void Add(Vehicle vehicle)

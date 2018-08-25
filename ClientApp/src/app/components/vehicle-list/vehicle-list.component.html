@@ -20,38 +20,35 @@
   </div>
   <button class="btn btn-default" (click)="resetFilter()">Reset</button>
 </div>
-<ng-template #noRecords>
-  <h3>There are no records.</h3>
+
+<h3 *ngIf="!queryResult.totalItems; else hasRecords">There are no records.</h3>
+
+<ng-template #hasRecords>
+  <table class="table">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns">
+          <div *ngIf="column.isSortable" (click)="sortBy(column.key)">
+            {{ column.title }}
+            <i *ngIf="query.sortBy === column.key" class="fa" [class.fa-sort-asc]="query.isSortAscending" [class.fa-sort-desc]="!query.isSortAscending"></i>
+          </div>
+          <div *ngIf="!column.isSortable">
+            {{ column.title }}
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let v of queryResult.items">
+        <td>{{v.id}}</td>
+        <td>{{v.make.name}}</td>
+        <td>{{v.model.name}}</td>
+        <td>{{v.contact.name}}</td>
+        <td>
+          <a [routerLink]="['/vehicles/',v.id]">View</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <app-pagination [totalItems]="queryResult.totalItems" [pageSize]="query.pageSize" (pageChanged)="onPageChange($event)"></app-pagination>
 </ng-template>
-
-
-<table *ngIf="vehicles.length; else noRecords" class="table">
-  <thead>
-    <tr>
-      <th *ngFor="let column of columns">
-        <div *ngIf="column.isSortable" (click)="sortBy(column.key)">
-          {{ column.title }}
-          <i *ngIf="query.sortBy === column.key" 
-            class="fa" 
-            [class.fa-sort-asc]="query.isSortAscending"
-            [class.fa-sort-desc]="!query.isSortAscending"
-            ></i>
-        </div>
-        <div *ngIf="!column.isSortable">
-          {{ column.title }}
-        </div>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let v of vehicles">
-      <td>{{v.id}}</td>
-      <td>{{v.make.name}}</td>
-      <td>{{v.model.name}}</td>
-      <td>{{v.contact.name}}</td>
-      <td>
-        <a [routerLink]="['/vehicles/',v.id]">View</a>
-      </td>
-    </tr>
-  </tbody>
-</table>
