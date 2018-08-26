@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using vega_aspnetcore_angular.Core;
+using vega_aspnetcore_angular.Core.Models;
 using vega_aspnetcore_angular.Persistence;
 
 namespace vega_aspnetcore_angular
@@ -26,6 +27,9 @@ namespace vega_aspnetcore_angular
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
+
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

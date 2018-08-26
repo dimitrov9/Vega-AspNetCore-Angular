@@ -25,9 +25,17 @@
       <a [routerLink]="['/vehicles']" class="btn btn-default">View All Vehicles</a>
     </ng-template>
   </ngb-tab>
+
   <ngb-tab title="Photos">
     <ng-template ngbTabContent>
       <h2>Photos</h2>
+      <input type="file" (change)="uploadPhoto()" #fileInput>
+      <div class="progress" *ngIf="progress != null && progress < 100">
+        <div class="progress-bar" [style.width]="progress + '%'">
+          <span class="sr-only">{{ progress }}% Complete</span>
+        </div>
+      </div>
+      <img *ngFor="let photo of photos" src="/uploads/{{ photo.fileName }}" class="img-thumbnail">
     </ng-template>
   </ngb-tab>
 </ngb-tabset>
