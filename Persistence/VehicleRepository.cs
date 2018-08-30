@@ -92,5 +92,27 @@ namespace vega_aspnetcore_angular.Persistence
             context.Remove(vehicle);
         }
 
+        public async Task<IEnumerable<ChartDataResource>> GetChartData()
+        {
+            var result = await context.Vehicles
+                .Include(v => v.Model)
+                .GroupBy(v => v.Model.Make.Name)
+                .Select(g => new ChartDataResource {
+                    Name = g.Key,
+                    Count = g.Count()
+                })
+                .ToListAsync();
+
+            // var result = await context.Makes
+            //     .Include(make => make.Models)
+            //         .ThenInclude(model => model.Vehicles)
+            //     .Select(m => new {
+            //         Name = m.Name,
+            //         Count = m.Models.Select(model => model.Vehicles.Count).Sum()
+            //     })
+            //     .ToListAsync();
+
+            return result;
+        }
     }
 }

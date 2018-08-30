@@ -1,3 +1,4 @@
+import { ChartData } from './../models/chart-data';
 import { VehicleQuery } from './../models/vehicle-query';
 import { KeyValuePair } from '../models/key-value-pair';
 import { SaveVehicle } from '../models/save-vehicle';
@@ -55,5 +56,9 @@ export class VehicleService {
 
   delete(id: number) {
     return this.http.delete(`/api/vehicles/${id}`);
+  }
+
+  getChartData() {
+    return this.http.get<ChartData[]>('/api/admin');
   }
 }

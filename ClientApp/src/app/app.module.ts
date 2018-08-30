@@ -12,6 +12,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ToastyModule } from 'ng2-toasty';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChartModule } from 'angular2-chartjs';
 import * as Raven from 'raven-js';
 
 
@@ -49,6 +50,7 @@ Raven
     HttpClientModule,
     HttpModule,
     FormsModule,
+    ChartModule,
     NgbModule.forRoot(),
     ToastyModule.forRoot(),
     RouterModule.forRoot([

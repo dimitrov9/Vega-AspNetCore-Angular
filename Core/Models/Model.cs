@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace vega_aspnetcore_angular.Core.Models
@@ -12,5 +14,12 @@ namespace vega_aspnetcore_angular.Core.Models
 
         public Make Make { get; set; }
         public int MakeId { get; set; }
+
+
+        public ICollection<Vehicle> Vehicles { get; set; }
+        public Model()
+        {
+            Vehicles = new Collection<Vehicle>();
+        }
     }
 }

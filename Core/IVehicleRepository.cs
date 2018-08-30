@@ -12,5 +12,7 @@ namespace vega_aspnetcore_angular.Core
         Task<QueryResultResource<VehicleResource>> GetAllVehicleResource(VehicleQuery filter);
         void Add(Vehicle vehicle);
         void Remove(Vehicle vehicle);
+
+        Task<IEnumerable<ChartDataResource>> GetChartData();
     }
 }
