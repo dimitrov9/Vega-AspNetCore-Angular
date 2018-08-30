@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth/auth.service';
 import { Result } from './../../models/result';
 import { Make } from './../../models/make';
 import { VehicleQuery } from './../../models/vehicle-query';
@@ -30,7 +31,8 @@ export class VehicleListComponent implements OnInit {
   ];
 
   constructor(
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    public authService: AuthService
   ) { }
 
   ngOnInit() {

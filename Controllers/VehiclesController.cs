@@ -8,6 +8,7 @@ using vega_aspnetcore_angular.Controllers.Resources;
 using vega_aspnetcore_angular.Core.Models;
 using vega_aspnetcore_angular.Core;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace vega_aspnetcore_angular.Controllers
 {
@@ -36,6 +37,7 @@ namespace vega_aspnetcore_angular.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policies.RequireAdminRole)]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource saveVehicleResource)
         {
             if (!ModelState.IsValid)
@@ -53,6 +55,7 @@ namespace vega_aspnetcore_angular.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource saveVehicleResource)
         {
             if (!ModelState.IsValid)
@@ -74,6 +77,7 @@ namespace vega_aspnetcore_angular.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             var vehicle = await vehicleRepository.GetVehicle(id, includeRelated: false);

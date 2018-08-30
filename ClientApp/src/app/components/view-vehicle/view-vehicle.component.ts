@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleService } from './../../services/vehice.service';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Vehicle } from '../../models/vehicle';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-view-vehicle',
@@ -19,6 +20,7 @@ export class ViewVehicleComponent implements OnInit {
   progress: number;
 
   constructor(
+    public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private toastyService: ToastyService,
