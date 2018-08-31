@@ -22,13 +22,14 @@ export class AuthService {
   private roles: string[] = [];
 
   constructor(public router: Router) {
-    const profile = localStorage.getItem('profile');
-    if (profile)
-      this.userProfile = profile;
+    if (this.isAuthenticated()) {
+      const profile = localStorage.getItem('profile');
+      if (profile)
+        this.userProfile = profile;
 
-    const token = localStorage.getItem('access_token');
-    if (token) {
-      this.readRolesFromToken(token);
+      const token = localStorage.getItem('access_token');
+      if (token)
+        this.readRolesFromToken(token);
     }
 
     this.handleAuthentication();
