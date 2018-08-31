@@ -54,15 +54,9 @@ namespace vega_aspnetcore_angular.Persistence
             var query = context.Vehicles
                 .Include(v => v.Model)
                     .ThenInclude(m => m.Make)
-                .Include(v => v.Features)
-                    .ThenInclude(vf => vf.Feature)
                 .AsQueryable();
 
-            if (vehicleQuery.MakeId.HasValue)
-                query = query.Where(v => v.Model.MakeId == vehicleQuery.MakeId.Value);
-
-            if (vehicleQuery.ModelId.HasValue)
-                query = query.Where(v => v.ModelId == vehicleQuery.ModelId.Value);
+            query = query.ApplyFiltering(vehicleQuery);
 
             var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>
             {
@@ -70,7 +64,6 @@ namespace vega_aspnetcore_angular.Persistence
                 ["model"] = v => v.Model.Name,
                 ["contactName"] = v => v.ContactName
             };
-
             query = query.ApplyOrdering(vehicleQuery, columnsMap);
 
             result.TotalItems = await query.CountAsync();

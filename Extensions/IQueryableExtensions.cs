@@ -8,6 +8,18 @@ namespace vega_aspnetcore_angular.Extensions
 {
     public static class IQueryableExtensions
     {
+        public static IQueryable<Vehicle> ApplyFiltering(this IQueryable<Vehicle> query, VehicleQuery vehicleQuery)
+        {
+
+            if (vehicleQuery.MakeId.HasValue)
+                query = query.Where(v => v.Model.MakeId == vehicleQuery.MakeId.Value);
+
+            if (vehicleQuery.ModelId.HasValue)
+                query = query.Where(v => v.ModelId == vehicleQuery.ModelId.Value);
+
+            return query;
+        }
+
         public static IQueryable<T> ApplyOrdering<T>(this IQueryable<T> query, IQueryObject queryObj, Dictionary<string, Expression<Func<T, object>>> columnsMapping)
         {
             if (String.IsNullOrWhiteSpace(queryObj.SortBy) || !columnsMapping.ContainsKey(queryObj.SortBy))

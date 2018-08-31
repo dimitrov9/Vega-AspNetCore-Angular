@@ -60,7 +60,7 @@ export class AuthService {
   private readRolesFromToken(token) {
     const jwtHelper = new JwtHelper();
     const decodedToken = jwtHelper.decodeToken(token);
-    this.roles = decodedToken['https://vega.com/roles'];
+    this.roles = decodedToken['https://vega.com/roles'] || [];
   }
 
   private setProfile(token): void {

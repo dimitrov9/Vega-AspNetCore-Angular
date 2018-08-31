@@ -33,7 +33,7 @@
             <span class='glyphicon glyphicon-plus'></span> New Vehicle
           </a>
         </li>
-        <li [routerLinkActive]='["link-active"]' *ngIf="auth.isAuthenticated() && auth.isInRole('Admin')">
+        <li [routerLinkActive]='["link-active"]' *ngIf="auth.isInRole('Admin')">
           <a [routerLink]='["/admin"]' (click)='collapse()'>
             <span class='glyphicon glyphicon-education'></span> Admin
           </a>
