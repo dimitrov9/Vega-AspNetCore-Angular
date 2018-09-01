@@ -21,23 +21,23 @@ namespace vega_aspnetcore_angular.Controllers
         public readonly PhotoSettings photosetting;
         private readonly IVehicleRepository vehicleRepository;
         private readonly IPhotoRepository photoRepository;
-        private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+        private readonly IPhotoService photoService;
 
         public PhotosController(
             IHostingEnvironment host,
             IVehicleRepository vehicleRepository,
             IPhotoRepository photoRepository,
-            IUnitOfWork unitOfWork,
             IMapper mapper,
-            IOptionsSnapshot<PhotoSettings> options
+            IOptionsSnapshot<PhotoSettings> options,
+            IPhotoService photoService
             )
         {
             this.photosetting = options.Value;
             this.vehicleRepository = vehicleRepository;
             this.photoRepository = photoRepository;
-            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
+            this.photoService = photoService;
             this.host = host;
         }
 
@@ -55,22 +55,8 @@ namespace vega_aspnetcore_angular.Controllers
             if (!photosetting.IsSupported(file.FileName))
                 return BadRequest("Invalid file type.");
 
-            var uploadsForlderPath = Path.Combine(host.WebRootPath, "uploads");
-            if (!Directory.Exists(uploadsForlderPath))
-                Directory.CreateDirectory(uploadsForlderPath);
-
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadsForlderPath, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            var photo = new Photo { FileName = fileName };
-            // todo generate thumbnails
-            vehicle.Photos.Add(photo);
-            await unitOfWork.CompleteAsync();
+            var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads");
+            var photo = await photoService.PhotoUpload(vehicle, file, uploadsFolderPath);
 
             return Ok(mapper.Map<PhotoResource>(photo));
         }

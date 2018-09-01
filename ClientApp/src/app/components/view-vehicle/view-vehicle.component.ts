@@ -21,7 +21,7 @@ export class ViewVehicleComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
-    private route: ActivatedRoute,
+    route: ActivatedRoute,
     private router: Router,
     private toastyService: ToastyService,
     private vehicleService: VehicleService,
@@ -68,14 +68,15 @@ export class ViewVehicleComponent implements OnInit {
 
     this.photoService.upload(this.vehicle.id, file)
       .subscribe((event: UploadPhotoEvent) => {
-        console.log(event);
         if (!event)
           return;
 
-        this.progress = event.percentage;
-
-        if (event.photo)
+        if (event.photo) {
           this.photos.push(event.photo);
+          return;
+        }
+
+        this.progress = event.percentage;
       }, err => {
         this.toastyService.error({
           title: 'Error',

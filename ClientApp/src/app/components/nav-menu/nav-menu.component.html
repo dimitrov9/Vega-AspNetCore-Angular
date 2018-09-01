@@ -20,17 +20,10 @@
           <a (click)='auth.logout()' *ngIf="auth.isAuthenticated()">
             <span class='glyphicon glyphicon-user'></span> Logout
           </a>
-
-
         </li>
         <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
           <a [routerLink]='["/vehicles"]' (click)='collapse()'>
             <span class='glyphicon glyphicon-home'></span> Vehicles
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/vehicles/new"]' (click)='collapse()'>
-            <span class='glyphicon glyphicon-plus'></span> New Vehicle
           </a>
         </li>
         <li [routerLinkActive]='["link-active"]' *ngIf="auth.isInRole('Admin')">
